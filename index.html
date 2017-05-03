@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="utf-8"/>
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<title>JavaFX Internationalizator</title>
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script type="text/javascript" src="Properties.js"></script>
+	<script>
+	  (adsbygoogle = window.adsbygoogle || []).push({
+	    google_ad_client: "ca-pub-3935369170561200",
+	    enable_page_level_ads: true
+	  });
+	</script>
+	<script type="text/javascript">
+		function handleFileSelect(evt) {
+		    var files = evt.target.files;
+		    var output = [];
+		    for (var i = 0, f; f = files[i]; i++) {
+		      	var reader = new FileReader();
+			    reader.readAsText(f);
+   			    var properties = new Properties();
+			    var originalKeys = {};
+			   	reader.onload = function(e) {
+				    var lines = reader.result.split("\n");
+				    for(i = 0; i< lines.length; ++i){
+				    	var key = lines[i].substring(0,lines[i].indexOf("="));
+				    	var value = lines[i].substring(lines[i].indexOf("=")+1, lines[i].length);
+				    	originalKeys[key] = value;
+				    }
+				};
+				properties.setOriginalKeys(originalKeys);
+				properties.printKeys();
+		    }
+		  }
+		window.onload = function(){
+			document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
+		}
+		function drop(e){
+			e.stopPropagation();
+		    e.preventDefault();
+		    var reader = new FileReader();
+		    reader.readAsText(e.dataTransfer.files[0]);
+		    var properties = new Properties();
+		    var originalKeys = {};
+		   	reader.onload = function(e) {
+			    var lines = reader.result.split("\n");
+			    for(i = 0; i< lines.length; ++i){
+			    	var key = lines[i].substring(0,lines[i].indexOf("="));
+			    	var value = lines[i].substring(lines[i].indexOf("=")+1, lines[i].length);
+			    	originalKeys[key] = value;
+			    }
+			};
+			properties.setOriginalKeys(originalKeys);
+			properties.printKeys();
+		}
+	</script>
+	<style>
+		h1{
+			text-align: center;
+		}
+		.drop-files{
+			padding: 20px;
+		 	border-style: dotted;
+		 	background-color: rgb(247, 247, 247);
+		}
+		p{
+			text-align: center;
+		}
+		input[type='checkbox']{
+			margin: 10px;
+		}
+		button{
+			margin: 10px;
+			background-color: rgb(76,142,250);
+			color: white;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<h1>Internationalizate your application!</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div id="dropzone" droppable="true" ondrop ="drop(event)" ondragenter="return false" ondragover="return false" class="drop-files col-md-12">
+				<p><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> Drop the original .properties, or <center><input type="file" id="fileInput"/></center></p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<h1>Translate to...</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="input-group">
+			      <span class="input-group-addon">
+			        <input type="checkbox">German</input>
+			        <input type="checkbox">Arab</input>
+			        <input type="checkbox">Chinese</input>
+			        <input type="checkbox">Korean</input>
+			        <input type="checkbox">Spanish</input>
+			        <input type="checkbox">French</input>
+			        <input type="checkbox">English</input>
+			        <input type="checkbox">Italian</input>
+			        <input type="checkbox">Japanese</input>
+			        <input type="checkbox">Portuguese</input>
+			        <input type="checkbox">Russian</input>
+			        <input type="checkbox">Thai</input>
+			      </span>
+			    </div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12"><center><button>Translate</button></center></div>
+		</div>
+	</div>
+</body>
+</html>
