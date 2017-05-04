@@ -8,23 +8,23 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+	<script src="https://www.google.com/jsapi?key=YOUR_GOOGLE_KEY"></script>
 	<title>JavaFX Internationalizator</title>
-	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 	<script type="text/javascript" src="Properties.js"></script>
-	<script>
-	  (adsbygoogle = window.adsbygoogle || []).push({
-	    google_ad_client: "ca-pub-3935369170561200",
-	    enable_page_level_ads: true
-	  });
-	</script>
 	<script type="text/javascript">
-		function handleFileSelect(evt) {
+		var properties;
+
+		function translate(){
+			properties.translateTo("en"); //"en" é um teste, aí deve ser passado um array associativo com os checkbox selecionados
+		}
+		function handleFileSelect(evt) { ///é chamada quando é selecionado algum arquivo pelo botão
 		    var files = evt.target.files;
 		    var output = [];
 		    for (var i = 0, f; f = files[i]; i++) {
 		      	var reader = new FileReader();
 			    reader.readAsText(f);
-   			    var properties = new Properties();
+   			    properties = new Properties();
 			    var originalKeys = {};
 			   	reader.onload = function(e) {
 				    var lines = reader.result.split("\n");
@@ -32,21 +32,20 @@
 				    	var key = lines[i].substring(0,lines[i].indexOf("="));
 				    	var value = lines[i].substring(lines[i].indexOf("=")+1, lines[i].length);
 				    	originalKeys[key] = value;
+						properties.setOriginalKeys(originalKeys);
 				    }
 				};
-				properties.setOriginalKeys(originalKeys);
-				properties.printKeys();
 		    }
 		  }
 		window.onload = function(){
 			document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
 		}
-		function drop(e){
+		function drop(e){ //chamada quando arquivos são dropados na div
 			e.stopPropagation();
 		    e.preventDefault();
 		    var reader = new FileReader();
 		    reader.readAsText(e.dataTransfer.files[0]);
-		    var properties = new Properties();
+		    properties = new Properties();
 		    var originalKeys = {};
 		   	reader.onload = function(e) {
 			    var lines = reader.result.split("\n");
@@ -54,10 +53,9 @@
 			    	var key = lines[i].substring(0,lines[i].indexOf("="));
 			    	var value = lines[i].substring(lines[i].indexOf("=")+1, lines[i].length);
 			    	originalKeys[key] = value;
+			    	properties.setOriginalKeys(originalKeys);
 			    }
 			};
-			properties.setOriginalKeys(originalKeys);
-			properties.printKeys();
 		}
 	</script>
 	<style>
@@ -75,10 +73,8 @@
 		input[type='checkbox']{
 			margin: 10px;
 		}
-		button{
+		.btn{
 			margin: 10px;
-			background-color: rgb(76,142,250);
-			color: white;
 		}
 	</style>
 </head>
@@ -120,7 +116,16 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-12"><center><button>Translate</button></center></div>
+			<button type="button" class="btn btn-default col-md-12" onclick="translate()">Translate it!</button>
+		</div>
+		<div class="row">
+			<div class="col-md-3"></div>
+			<div class="col-md-6">
+				<h2><center>How it work?</center></h2>
+				<p style="text-align=left">The internationalization of JavaFX desktop applications use .properties files to load the words. To each language there a .properties, so, inside the application the strings is loaded with the key name, not the value, so the string equivalant of that key is loaded (in the choosed language).<br/>
+				This application generate all the other .properties from one root .properties, in your native language. Let's go to work?</p>
+			</div>
+			<div class="col-md-3"></div>
 		</div>
 	</div>
 </body>
